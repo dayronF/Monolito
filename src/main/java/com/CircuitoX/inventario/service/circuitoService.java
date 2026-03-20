@@ -1,9 +1,12 @@
 package com.CircuitoX.inventario.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.CircuitoX.inventario.dto.circuitoMessage;
 import com.CircuitoX.inventario.dto.circuitoRequest;
+import com.CircuitoX.inventario.dto.circuitoResponse;
 import com.CircuitoX.inventario.entity.circuitoEntity;
 import com.CircuitoX.inventario.repository.circuitoRepository;
 
@@ -16,7 +19,7 @@ public class circuitoService {
 
     private final circuitoRepository circuitoRepository;
 
-    public circuitoMessage  createCelphone(circuitoRequest circuitoRequest) {
+    public circuitoMessage createCelphone(circuitoRequest circuitoRequest) {
         circuitoMessage circuitomessage = new circuitoMessage();
 
         circuitoEntity circuitoentity = new circuitoEntity();
@@ -32,4 +35,24 @@ public class circuitoService {
 
         return circuitomessage;
     }
+
+    public circuitoMessage searchCelphone(String model) {
+
+        circuitoMessage circuitoMessage = new circuitoMessage();
+
+        Optional<circuitoEntity> circuitoEntity = circuitoRepository.findByModel(model);
+
+        if (circuitoEntity.isEmpty()) {
+            circuitoMessage.setMessage("Celular no encontrado");
+            return circuitoMessage;
+        }
+
+        circuitoMessage.setMessage(
+                "Celular encontrado: " + circuitoEntity.get().getBrand() + " " + circuitoEntity.get().getModel() + " "
+                        + circuitoEntity.get().getStorage() + " " + circuitoEntity.get().getRam() + " "
+                        + circuitoEntity.get().getColor() + " " + circuitoEntity.get().getPrice() + " "
+                        + circuitoEntity.get().getStock());
+        return circuitoMessage;
+    }
+
 }
