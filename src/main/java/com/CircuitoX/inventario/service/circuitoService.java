@@ -55,4 +55,26 @@ public class circuitoService {
         return circuitoMessage;
     }
 
+    public circuitoMessage UpdateCelphone(circuitoRequest circuitoRequest) {
+        circuitoMessage circuitoMessage = new circuitoMessage();
+
+        Optional<circuitoEntity> circuitoEntityOptional = circuitoRepository.findByModel(circuitoRequest.getModel());
+
+        if (circuitoEntityOptional.isEmpty()) {
+            circuitoMessage.setMessage("Celular no encontrado");
+            return circuitoMessage;
+        }
+
+        circuitoEntity circuitoEntity = circuitoEntityOptional.get();
+        circuitoEntity.setBrand(circuitoRequest.getBrand());
+        circuitoEntity.setStorage(circuitoRequest.getStorage());
+        circuitoEntity.setRam(circuitoRequest.getRam());
+        circuitoEntity.setColor(circuitoRequest.getColor());
+        circuitoEntity.setPrice(circuitoRequest.getPrice());
+        circuitoEntity.setStock(circuitoRequest.getStock());
+        circuitoRepository.save(circuitoEntity);
+        circuitoMessage.setMessage("Celular actualizado exitosamente");
+
+        return circuitoMessage;
+    }
 }
