@@ -55,26 +55,26 @@ public class circuitoService {
         return circuitoMessage;
     }
 
-    public circuitoMessage UpdateCelphone(circuitoRequest circuitoRequest) {
+    public circuitoMessage UpdatePhone(circuitoRequest circuitoRequest) {
         circuitoMessage circuitoMessage = new circuitoMessage();
 
-        Optional<circuitoEntity> circuitoEntityOptional = circuitoRepository.findByModel(circuitoRequest.getModel());
+        Optional<circuitoEntity> circuitoEntity = circuitoRepository.findByModel(circuitoRequest.getModel());
 
-        if (circuitoEntityOptional.isEmpty()) {
+        if (circuitoEntity.isEmpty()) {
             circuitoMessage.setMessage("Celular no encontrado");
             return circuitoMessage;
         }
 
-        circuitoEntity circuitoEntity = circuitoEntityOptional.get();
-        circuitoEntity.setBrand(circuitoRequest.getBrand());
-        circuitoEntity.setStorage(circuitoRequest.getStorage());
-        circuitoEntity.setRam(circuitoRequest.getRam());
-        circuitoEntity.setColor(circuitoRequest.getColor());
-        circuitoEntity.setPrice(circuitoRequest.getPrice());
-        circuitoEntity.setStock(circuitoRequest.getStock());
-        circuitoRepository.save(circuitoEntity);
-        circuitoMessage.setMessage("Celular actualizado exitosamente");
+        circuitoEntity.get().setBrand(circuitoRequest.getBrand());
+        circuitoEntity.get().setStorage(circuitoRequest.getStorage());
+        circuitoEntity.get().setRam(circuitoRequest.getRam());
+        circuitoEntity.get().setColor(circuitoRequest.getColor());
+        circuitoEntity.get().setPrice(circuitoRequest.getPrice());
+        circuitoEntity.get().setStock(circuitoRequest.getStock());
 
+        circuitoRepository.save(circuitoEntity.get());
+
+        circuitoMessage.setMessage("Celular actualizado exitosamente");
         return circuitoMessage;
     }
 }
