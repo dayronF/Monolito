@@ -133,4 +133,11 @@ public class circuitoService {
         return circuitoMessage;
     }
 
+    public circuitoMessage ListCelphones() {
+        circuitoMessage circuitoMessage = new circuitoMessage();
+
+        circuitoMessage.setMessage("Lista de celulares: " + circuitoRepository.findAll().toString());
+        return circuitoMessage;
+    }
+
 }
