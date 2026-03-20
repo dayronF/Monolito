@@ -77,4 +77,22 @@ public class circuitoService {
         circuitoMessage.setMessage("Celular actualizado exitosamente");
         return circuitoMessage;
     }
+
+    public circuitoMessage deletePhone(String model) {
+        circuitoMessage circuitoMessage = new circuitoMessage();
+
+        Optional<circuitoEntity> circuitoEntity = circuitoRepository.findByModel(model);
+
+        if (circuitoEntity.isEmpty()) {
+            circuitoMessage.setMessage("Celular no encontrado");
+            return circuitoMessage;
+        }
+
+        circuitoRepository.delete(circuitoEntity.get());
+
+        circuitoMessage.setMessage("Celular eliminado exitosamente");
+        return circuitoMessage;
+    }
+
+
 }
