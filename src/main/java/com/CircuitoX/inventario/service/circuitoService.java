@@ -94,5 +94,26 @@ public class circuitoService {
         return circuitoMessage;
     }
 
+    public circuitoMessage  RestarStock(String model, int stock) {
+        circuitoMessage circuitoMessage = new circuitoMessage();
+
+        Optional<circuitoEntity> circuitoEntity = circuitoRepository.findByModel(model);
+
+        if (circuitoEntity.isEmpty()) {
+            circuitoMessage.setMessage("Celular no encontrado");
+            return circuitoMessage;
+        }
+
+        if (circuitoEntity.get().getStock() < stock) {
+            circuitoMessage.setMessage("No hay suficiente stock para restar");
+            return circuitoMessage;
+        }
+
+        circuitoEntity.get().setStock(circuitoEntity.get().getStock() - stock);
+        circuitoRepository.save(circuitoEntity.get());
+
+        circuitoMessage.setMessage("Stock restado exitosamente");
+        return circuitoMessage;
+    }
 
 }
