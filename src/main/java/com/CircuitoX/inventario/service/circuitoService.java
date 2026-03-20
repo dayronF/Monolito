@@ -116,4 +116,21 @@ public class circuitoService {
         return circuitoMessage;
     }
 
+    public circuitoMessage SumarStock(String model, int stock) {
+        circuitoMessage circuitoMessage = new circuitoMessage();
+
+        Optional<circuitoEntity> circuitoEntity = circuitoRepository.findByModel(model);
+
+        if (circuitoEntity.isEmpty()) {
+            circuitoMessage.setMessage("Celular no encontrado");
+            return circuitoMessage;
+        }
+
+        circuitoEntity.get().setStock(circuitoEntity.get().getStock() + stock);
+        circuitoRepository.save(circuitoEntity.get());
+
+        circuitoMessage.setMessage("Stock sumado exitosamente");
+        return circuitoMessage;
+    }
+
 }
