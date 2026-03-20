@@ -10,5 +10,5 @@ CREATE TABLE mobile_devices (
     color VARCHAR(50),
     price DECIMAL(10,2) NOT NULL,
     stock INT NOT NULL DEFAULT 0,
-    min_stock INT DEFAULT 5
+   
 );
