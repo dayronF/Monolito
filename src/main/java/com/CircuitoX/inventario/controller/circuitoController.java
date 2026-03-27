@@ -10,6 +10,7 @@ import com.CircuitoX.inventario.service.circuitoService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/celulares")
 @RequiredArgsConstructor
