@@ -34,10 +34,10 @@ async function checkBackend() {
   const label = $('statusLabel');
   try {
     await fetch(URLS.listar, { signal: AbortSignal.timeout(3000) });
-    label.textContent = '● Backend online';
+    label.textContent = 'Backend online';
     label.className = 'status online';
   } catch {
-    label.textContent = '● Backend offline';
+    label.textContent = 'Backend offline';
     label.className = 'status offline';
   }
 }
