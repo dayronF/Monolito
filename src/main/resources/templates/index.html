@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CircuitoX — Inventario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/Style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="brand">⬡ CircuitoX</h1>
+      <span class="status" id="statusLabel">Verificando backend…</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="list">Listar</button>
+    <button class="tab" data-tab="create">Crear</button>
+    <button class="tab" data-tab="search">Buscar</button>
+    <button class="tab" data-tab="update">Actualizar</button>
+    <button class="tab" data-tab="delete">Eliminar</button>
+    <button class="tab" data-tab="stock">Stock</button>
+  </nav>
+
+  <main class="main">
+
+    <section class="panel active" id="tab-list">
+      <h2>Inventario completo</h2>
+      <p class="desc">Lista todos los celulares registrados.</p>
+      <button class="btn btn-primary" id="btnListar">Cargar dispositivos</button>
+      <div id="listResult"></div>
+    </section>
+
+    <section class="panel" id="tab-create">
+      <h2>Registrar dispositivo</h2>
+      <p class="desc">Completa los datos del nuevo celular.</p>
+      <form class="form-grid" id="createForm" onsubmit="return false">
+        <div class="field">
+          <label>Marca *</label>
+          <input type="text" id="c_brand" placeholder="Ej: Samsung" />
+        </div>
+        <div class="field">
+          <label>Modelo *</label>
+          <input type="text" id="c_model" placeholder="Ej: Galaxy S24" />
+        </div>
+        <div class="field">
+          <label>Almacenamiento</label>
+          <input type="text" id="c_storage" placeholder="Ej: 128GB" />
+        </div>
+        <div class="field">
+          <label>RAM (GB)</label>
+          <input type="number" id="c_ram" placeholder="Ej: 8" min="0" />
+        </div>
+        <div class="field">
+          <label>Color</label>
+          <input type="text" id="c_color" placeholder="Ej: Negro" />
+        </div>
+        <div class="field">
+          <label>Precio (USD)</label>
+          <input type="number" id="c_price" placeholder="Ej: 799.99" step="0.01" min="0" />
+        </div>
+        <div class="field">
+          <label>Stock</label>
+          <input type="number" id="c_stock" placeholder="Ej: 10" min="0" />
+        </div>
+        <div class="field field-full">
+          <button class="btn btn-primary" id="btnCrear">Registrar</button>
+        </div>
+      </form>
+      <div id="createResult"></div>
+    </section>
+
+    <section class="panel" id="tab-search">
+      <h2>Buscar por modelo</h2>
+      <p class="desc">Consulta un celular por su nombre de modelo.</p>
+      <div class="row">
+        <input type="text" id="s_model" placeholder="Escribe el modelo…" />
+        <button class="btn btn-primary" id="btnBuscar">Buscar</button>
+      </div>
+      <div id="searchResult"></div>
+    </section>
+
+    <section class="panel" id="tab-update">
+      <h2>Actualizar dispositivo</h2>
+      <p class="desc">El modelo se usa para identificar el celular a editar.</p>
+      <form class="form-grid" id="updateForm" onsubmit="return false">
+        <div class="field">
+          <label>Marca</label>
+          <input type="text" id="u_brand" placeholder="Nueva marca" />
+        </div>
+        <div class="field">
+          <label>Modelo *</label>
+          <input type="text" id="u_model" placeholder="Modelo a editar" />
+        </div>
+        <div class="field">
+          <label>Almacenamiento</label>
+          <input type="text" id="u_storage" placeholder="Nuevo almacenamiento" />
+        </div>
+        <div class="field">
+          <label>RAM (GB)</label>
+          <input type="number" id="u_ram" placeholder="Nueva RAM" min="0" />
+        </div>
+        <div class="field">
+          <label>Color</label>
+          <input type="text" id="u_color" placeholder="Nuevo color" />
+        </div>
+        <div class="field">
+          <label>Precio (USD)</label>
+          <input type="number" id="u_price" placeholder="Nuevo precio" step="0.01" min="0" />
+        </div>
+        <div class="field">
+          <label>Stock</label>
+          <input type="number" id="u_stock" placeholder="Nuevo stock" min="0" />
+        </div>
+        <div class="field field-full">
+          <button class="btn btn-primary" id="btnActualizar">Actualizar</button>
+        </div>
+      </form>
+      <div id="updateResult"></div>
+    </section>
+
+    <section class="panel" id="tab-delete">
+      <h2>Eliminar dispositivo</h2>
+      <p class="desc">Elimina un celular del inventario usando su modelo.</p>
+      <div class="row">
+        <input type="text" id="d_model" placeholder="Modelo a eliminar…" />
+        <button class="btn btn-danger" id="btnEliminar">Eliminar</button>
+      </div>
+      <div id="deleteResult"></div>
+    </section>
+
+    <section class="panel" id="tab-stock">
+      <h2>Gestión de stock</h2>
+      <p class="desc">Suma o resta unidades a un modelo específico.</p>
+      <div class="stock-grid">
+
+        <div class="stock-card">
+          <h3 class="stock-title add">↑ Sumar stock</h3>
+          <div class="field">
+            <label>Modelo</label>
+            <input type="text" id="add_model" placeholder="Modelo del celular" />
+          </div>
+          <div class="field">
+            <label>Cantidad a agregar</label>
+            <input type="number" id="add_stock" placeholder="Ej: 5" min="1" />
+          </div>
+          <button class="btn btn-success" id="btnSumar">Agregar</button>
+          <div id="addResult"></div>
+        </div>
+
+        <div class="stock-card">
+          <h3 class="stock-title sub">↓ Restar stock</h3>
+          <div class="field">
+            <label>Modelo</label>
+            <input type="text" id="sub_model" placeholder="Modelo del celular" />
+          </div>
+          <div class="field">
+            <label>Cantidad a retirar</label>
+            <input type="number" id="sub_stock" placeholder="Ej: 3" min="1" />
+          </div>
+          <button class="btn btn-warning" id="btnRestar">Retirar</button>
+          <div id="subResult"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="../static/js/app.js"></script>
+</body>
+</html>
